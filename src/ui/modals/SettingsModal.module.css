@@ -1,0 +1,81 @@
+.trigger {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 5;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(20, 22, 24, 0.55);
+  color: #f0e9dd;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.trigger:hover {
+  background: rgba(20, 22, 24, 0.8);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+}
+
+.panel {
+  background: #1c1f22;
+  color: #eee;
+  padding: 24px 28px;
+  border-radius: 12px;
+  min-width: 260px;
+}
+
+.panel h2 {
+  margin: 0 0 16px;
+  font-size: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.field input {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #111;
+  color: #eee;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.actions button {
+  flex: 1;
+  padding: 8px 0;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.apply {
+  background: #2f7d4f;
+  color: white;
+}
+
+.cancel {
+  background: #444;
+  color: #ddd;
+}

@@ -1,0 +1,51 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.panel {
+  background: #1c1f22;
+  color: #eee;
+  padding: 24px 32px;
+  border-radius: 12px;
+  min-width: 280px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.panel h2 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+.panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  text-align: left;
+  display: inline-block;
+}
+
+.panel li {
+  padding: 2px 0;
+}
+
+.panel button {
+  margin-top: 16px;
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  background: #2f7d4f;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.panel button:hover {
+  background: #3a9962;
+}
