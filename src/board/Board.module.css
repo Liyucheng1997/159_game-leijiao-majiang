@@ -1,0 +1,225 @@
+/* ============ 2D 牌桌 ============ */
+
+.board {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 120% 90% at 50% 45%, rgba(255, 255, 255, 0.09), transparent 60%),
+    radial-gradient(ellipse 140% 120% at 50% 50%, var(--felt-hi) 0%, var(--felt-mid) 55%, var(--felt-lo) 100%);
+  --s: min(96vmin, 880px);
+  --river-tw: calc(var(--s) * 0.054);
+  --aihand-tw: calc(var(--s) * 0.05);
+  --meld-tw: calc(var(--s) * 0.042);
+  --flower-tw: calc(var(--s) * 0.036);
+}
+
+/* 中央正方形游戏区,四个座位层在其中旋转复用 */
+.table {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--s);
+  height: var(--s);
+  transform: translate(-50%, -50%);
+}
+
+.seat {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.seatRight {
+  transform: rotate(-90deg);
+}
+
+.seatTop {
+  transform: rotate(180deg);
+}
+
+.seatLeft {
+  transform: rotate(90deg);
+}
+
+/* ---- 牌河:每行 6 张,向本家方向增行 ---- */
+.river {
+  position: absolute;
+  top: 63%;
+  left: 50%;
+  /* 风车错位:每家牌河向自家左侧偏移,四家咬合互不重叠 */
+  transform: translateX(calc(-50% - var(--s) * 0.045));
+  width: calc(var(--river-tw) * 6 + 12px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  justify-content: flex-start;
+  align-content: flex-start;
+}
+
+.riverTileIn {
+  animation: dropIn 0.18s ease-out;
+}
+
+@keyframes dropIn {
+  from {
+    transform: scale(1.35);
+    opacity: 0.4;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ---- 对手座位边:手牌背 + 副露 + 花牌排成一行,整体居中,永不重叠 ---- */
+.seatEdge {
+  position: absolute;
+  bottom: 0.8%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.aiHand {
+  display: flex;
+  gap: 2px;
+}
+
+.meldGroup {
+  display: flex;
+  gap: 1.5px;
+  align-items: flex-end;
+}
+
+.flowers {
+  display: flex;
+  gap: 1.5px;
+}
+
+/* ---- 中央指示区 ---- */
+.compass {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--s) * 0.185);
+  height: calc(var(--s) * 0.185);
+  transform: translate(-50%, -50%);
+  border-radius: 10%;
+  background: linear-gradient(160deg, var(--compass-1) 0%, var(--compass-2) 100%);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15), 0 4px 14px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.compassCenter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  color: #cfe8d8;
+  font-size: calc(var(--s) * 0.023);
+  line-height: 1.3;
+  text-align: center;
+}
+
+.wallCount {
+  font-size: calc(var(--s) * 0.034);
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.windLabel {
+  position: absolute;
+  width: calc(var(--s) * 0.048);
+  height: calc(var(--s) * 0.048);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'KaiTi', 'STKaiti', 'Kaiti SC', '楷体', serif;
+  font-weight: 700;
+  font-size: calc(var(--s) * 0.032);
+  color: #9fc4ae;
+  border-radius: 20%;
+  transition: all 0.25s ease;
+}
+
+.windActive {
+  color: #1d1502;
+  background: linear-gradient(180deg, #ffd75e, #f0a818);
+  box-shadow: 0 0 10px rgba(255, 200, 60, 0.75);
+}
+
+.windDealer {
+  color: #ff8f8f;
+}
+
+.windActive.windDealer {
+  color: #7e1010;
+}
+
+.windBottom {
+  bottom: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.windRight {
+  right: 4%;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+}
+
+.windTop {
+  top: 4%;
+  left: 50%;
+  transform: translateX(-50%) rotate(180deg);
+}
+
+.windLeft {
+  left: 4%;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+/* ---- 人类手牌区(覆盖在桌面之上,底部通栏) ---- */
+.handBar {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  z-index: 10;
+  max-width: 98vw;
+}
+
+.handTiles {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  --hand-tw: min(4.6vw, 56px);
+}
+
+.drawnTile {
+  margin-left: 12px;
+}
+
+.humanFlowers {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+  padding-bottom: 4px;
+}
+
+.humanMelds {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  padding-bottom: 2px;
+}

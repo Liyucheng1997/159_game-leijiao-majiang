@@ -1,6 +1,99 @@
 :root {
   color-scheme: dark;
   font: 16px/145% system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  /* ===== 主题变量(默认:翠绿经典)===== */
+  /* 桌布 */
+  --felt-hi: #2e7d4f;
+  --felt-mid: #226342;
+  --felt-lo: #143d28;
+  /* 牌面(象牙) */
+  --tile-face-1: #f7f3e4;
+  --tile-face-2: #fffdf4;
+  --tile-face-3: #f4eeda;
+  --tile-face-4: #ddd4b8;
+  --tile-edge: #c9bd9a;
+  /* 立牌顶部露出的牌背条 */
+  --back-strip-1: #3f9d6d;
+  --back-strip-2: #2e7d55;
+  --back-strip-3: #1d5c3c;
+  /* 整张牌背 */
+  --backtile-1: #2f8a5d;
+  --backtile-2: #246c48;
+  --backtile-3: #1b5638;
+  --backtile-edge: #efe9d2;
+  --backflat-edge: #143f29;
+  /* 中央罗盘 */
+  --compass-1: #17402b;
+  --compass-2: #0e2d1d;
+  /* 水晶质感的玻璃高光强度(0=无) */
+  --tile-gloss: 0;
+}
+
+[data-theme='crystal'] {
+  --felt-hi: #2b4a78;
+  --felt-mid: #1e3358;
+  --felt-lo: #101d36;
+  --tile-face-1: #e9f3fa;
+  --tile-face-2: #ffffff;
+  --tile-face-3: #e2eef7;
+  --tile-face-4: #bdd3e2;
+  --tile-edge: #9fbcd0;
+  --back-strip-1: #7ccbee;
+  --back-strip-2: #3f9dd0;
+  --back-strip-3: #29699b;
+  --backtile-1: #5cb5e0;
+  --backtile-2: #3c8fbd;
+  --backtile-3: #285f88;
+  --backtile-edge: #eaf4fa;
+  --backflat-edge: #1d4a6b;
+  --compass-1: #1a3050;
+  --compass-2: #0f1e35;
+  --tile-gloss: 0.55;
+}
+
+[data-theme='rosewood'] {
+  --felt-hi: #8a4a2b;
+  --felt-mid: #6e3a20;
+  --felt-lo: #421f0e;
+  --tile-face-1: #f9f2dc;
+  --tile-face-2: #fffbee;
+  --tile-face-3: #f4ebd2;
+  --tile-face-4: #dccfa8;
+  --tile-edge: #c4ac7c;
+  --back-strip-1: #c85448;
+  --back-strip-2: #a03b31;
+  --back-strip-3: #742420;
+  --backtile-1: #b5443a;
+  --backtile-2: #93332b;
+  --backtile-3: #6b1f1a;
+  --backtile-edge: #f4ead0;
+  --backflat-edge: #4d1512;
+  --compass-1: #3a2015;
+  --compass-2: #241109;
+  --tile-gloss: 0.12;
+}
+
+[data-theme='night'] {
+  --felt-hi: #24332d;
+  --felt-mid: #17211c;
+  --felt-lo: #0a0f0d;
+  --tile-face-1: #efece1;
+  --tile-face-2: #faf8ef;
+  --tile-face-3: #e6e2d2;
+  --tile-face-4: #c5c0aa;
+  --tile-edge: #a8a288;
+  --back-strip-1: #2f5a48;
+  --back-strip-2: #1f4234;
+  --back-strip-3: #122a20;
+  --backtile-1: #29503f;
+  --backtile-2: #1b3a2c;
+  --backtile-3: #0f241a;
+  --backtile-edge: #d8d2ba;
+  --backflat-edge: #081711;
+  --compass-1: #131c17;
+  --compass-2: #0a0f0c;
+  --tile-gloss: 0.28;
 }
 
 * {

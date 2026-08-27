@@ -1,0 +1,133 @@
+/* ============ 麻将牌实体 ============ */
+/* 尺寸由外层通过 --tw (tile width) 控制,高度按真实比例派生。 */
+
+.tile {
+  position: relative;
+  width: var(--tw);
+  flex: 0 0 auto;
+  border-radius: calc(var(--tw) * 0.13);
+  box-sizing: border-box;
+  user-select: none;
+}
+
+/* ---- 立牌(手牌视角):顶部露出一条牌背,下面是象牙面 ---- */
+.standing {
+  height: calc(var(--tw) * 1.52);
+  background: linear-gradient(180deg, var(--tile-face-1) 0%, var(--tile-face-2) 22%, var(--tile-face-3) 78%, var(--tile-face-4) 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+    inset 0 -3px 4px rgba(90, 90, 90, 0.28),
+    0 calc(var(--tw) * 0.07) calc(var(--tw) * 0.14) rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.standingBackStrip {
+  height: 17%;
+  flex: none;
+  background: linear-gradient(180deg, var(--back-strip-1) 0%, var(--back-strip-2) 55%, var(--back-strip-3) 100%);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35), inset 0 -2px 2px rgba(0, 0, 0, 0.35);
+}
+
+.standingFace {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--tw) * 0.05) calc(var(--tw) * 0.06) calc(var(--tw) * 0.07);
+}
+
+/* ---- 平铺牌(牌河 / 副露):只见牌面,底边略深表现厚度 ---- */
+.flat {
+  height: calc(var(--tw) * 1.33);
+  background: linear-gradient(180deg, var(--tile-face-2) 0%, var(--tile-face-3) 70%, var(--tile-face-4) 100%);
+  border-bottom: calc(var(--tw) * 0.09) solid var(--tile-edge);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.85),
+    0 calc(var(--tw) * 0.05) calc(var(--tw) * 0.09) rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 注意:百分比 padding 相对父容器宽度解析,必须用牌自身宽度 --tw 计算 */
+  padding: calc(var(--tw) * 0.045) calc(var(--tw) * 0.055);
+}
+
+/* ---- 牌背(对手手牌,立着) ---- */
+.backStanding {
+  height: calc(var(--tw) * 1.52);
+  background:
+    radial-gradient(ellipse 120% 60% at 50% 0%, rgba(255, 255, 255, 0.28), transparent 55%),
+    linear-gradient(180deg, var(--backtile-1) 0%, var(--backtile-2) 45%, var(--backtile-3) 100%);
+  border-bottom: calc(var(--tw) * 0.16) solid var(--backtile-edge);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.3),
+    0 calc(var(--tw) * 0.06) calc(var(--tw) * 0.12) rgba(0, 0, 0, 0.45);
+}
+
+/* ---- 牌背(平铺,暗杠两头两张) ---- */
+.backFlat {
+  height: calc(var(--tw) * 1.33);
+  background: linear-gradient(180deg, var(--backtile-1) 0%, var(--backtile-2) 45%, var(--backtile-3) 100%);
+  border-bottom: calc(var(--tw) * 0.09) solid var(--backflat-edge);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.3),
+    0 calc(var(--tw) * 0.05) calc(var(--tw) * 0.09) rgba(0, 0, 0, 0.4);
+}
+
+.faceSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ---- 玻璃高光(水晶等主题,强度由 --tile-gloss 控制) ---- */
+.standing::after,
+.flat::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--tile-gloss);
+  background:
+    linear-gradient(128deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.12) 32%, transparent 46%),
+    radial-gradient(ellipse 70% 34% at 78% 96%, rgba(255, 255, 255, 0.28), transparent 70%);
+}
+
+/* ---- 交互态(仅人类手牌) ---- */
+.clickable {
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.clickable:hover {
+  transform: translateY(calc(var(--tw) * -0.18));
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+    inset 0 -3px 4px rgba(120, 100, 60, 0.28),
+    0 calc(var(--tw) * 0.16) calc(var(--tw) * 0.22) rgba(0, 0, 0, 0.5);
+}
+
+.dimmed {
+  filter: brightness(0.82) saturate(0.85);
+}
+
+/* 刚打出的那张牌:金色描边呼吸 */
+.highlight {
+  outline: 3px solid #ffd75e;
+  outline-offset: 1px;
+  animation: pulse 1s ease-in-out infinite;
+  z-index: 2;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    outline-color: #ffd75e;
+  }
+  50% {
+    outline-color: #ffb200;
+  }
+}

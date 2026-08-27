@@ -7,10 +7,10 @@
 }
 
 .seatNorth {
+  /* 放在右上角,避免盖住对家的手牌;右侧留出设置按钮的位置 */
   position: absolute;
   top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 84px;
   z-index: 5;
 }
 

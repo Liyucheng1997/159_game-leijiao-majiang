@@ -1,32 +1,34 @@
-# React + TypeScript + Vite
+# 雷焦麻将
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+一个可以在浏览器里真正打完整局的 3 人 AI + 1 人四人麻将网页游戏。
 
-Currently, two official plugins are available:
+## 技术
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **规则引擎**(`src/engine/`):纯 TypeScript,零依赖 —— 洗牌/发牌、吃碰杠胡、向听计算、AI 决策、算番(门清/花牌/杠/单钓将/对对胡/清一色/自摸/十三幺)、连续 16 局的比赛计分。全部由 Vitest 测试覆盖,包含整局自动对弈的端到端仿真回归。
+- **渲染层**(`src/board/`):纯 2D DOM + SVG,不使用 WebGL。所有 42 种牌面(34 种牌 + 8 张花牌)为手工绘制的 SVG,按真实雕刻麻将设计:蓝数字红「萬」、同心圆环筒子、竹节条子、幺鸡画鸟、楷体字牌、双框白板。牌桌为俯视四座布局,四家牌河按真实雀桌风车状咬合排列。
+- **音频**(`src/audio/`):零音频文件,全部运行时合成 —— Web Audio 合成打牌脆响、摸牌、补花、胡牌琶音、流局低音;吃/碰/杠/胡用浏览器中文 TTS 报牌(四个座位不同音高);背景音乐为宫调五声音阶的古筝风程序化循环。三项均可在设置中独立开关,偏好存 localStorage。
+- **主题换肤**(`src/ui/theme.ts` + `index.css` 的 CSS 变量):四套牌桌风格 —— 翠绿经典、冰蓝水晶(玻璃高光)、红木朱砂、墨玉夜色。桌布、牌面、牌背、罗盘整体联动换色,牌面雕刻色保持不变以保证辨识度;设置中即点即换,偏好存 localStorage,调试可用 `?theme=crystal` 直接指定。
+- React 19 + Zustand + Vite。
 
-## React Compiler
+## 开发
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm run dev        # 开发服务器
+npm test           # 引擎测试(含整局仿真)
+npm run build      # 生产构建
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+调试用 URL 参数(可组合):
+
+| 参数 | 作用 |
+| --- | --- |
+| `?gallery` | 显示全部牌面画廊,校对美术 |
+| `?auto` | AI 代打人类座位,整局自动进行 |
+| `?fast` | AI 思考时间缩短到 40ms |
+| `?seed=123` | 固定随机种子,可复现同一局 |
+
+## 玩法
+
+- 你坐在下方(庄起第一局),点击手牌出牌;可吃、碰、明杠、暗杠、加杠。
+- 自摸需 ≥1 番,点炮胡需 ≥2 番;十三幺按封顶 88 番计。
+- 花牌摸到自动补花,每张 +1 番。

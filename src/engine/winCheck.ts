@@ -11,11 +11,14 @@ export function isWinningHand(counts: number[], meldsAlreadyExposed: number): bo
 }
 
 /**
- * Enumerate every valid 4-sets-and-a-pair decomposition of a complete concealed
- * hand. A hand can be ambiguous (e.g. 234567 in one suit decomposes multiple
+ * Enumerate every valid sets-and-a-pair decomposition of a complete concealed
+ * hand. Exposed melds already account for part of the 4 required sets, so the
+ * concealed portion only needs `4 - meldsAlreadyExposed` sets plus the pair.
+ * A hand can be ambiguous (e.g. 234567 in one suit decomposes multiple
  * ways) — callers should score every decomposition and keep the best.
  */
-export function enumerateStandardDecompositions(counts: number[]): StandardWinDecomposition[] {
+export function enumerateStandardDecompositions(counts: number[], meldsAlreadyExposed = 0): StandardWinDecomposition[] {
+  const setsNeeded = 4 - meldsAlreadyExposed
   const working = counts.slice()
   const results: StandardWinDecomposition[] = []
   const seen = new Set<string>()
@@ -40,10 +43,10 @@ export function enumerateStandardDecompositions(counts: number[]): StandardWinDe
   function helper(index: number, sets: DecompSet[], pair: TileKindId | null) {
     const i = nextNonZero(index)
     if (i >= TILE_KIND_COUNT) {
-      if (sets.length === 4 && pair !== null) record(sets, pair)
+      if (sets.length === setsNeeded && pair !== null) record(sets, pair)
       return
     }
-    if (sets.length < 4) {
+    if (sets.length < setsNeeded) {
       if (working[i] >= 3) {
         working[i] -= 3
         sets.push({ type: 'triplet', tiles: [i, i, i] })
@@ -88,5 +91,5 @@ export function findWinDecompositions(counts: number[], meldsAlreadyExposed: num
     const kokushi: KokushiWinDecomposition = { kind: 'kokushi' }
     return [kokushi]
   }
-  return enumerateStandardDecompositions(counts)
+  return enumerateStandardDecompositions(counts, meldsAlreadyExposed)
 }
