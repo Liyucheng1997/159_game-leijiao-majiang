@@ -51,6 +51,19 @@ class SoundManager {
     }
     window.addEventListener('pointerdown', unlock)
     window.addEventListener('keydown', unlock)
+    // 页面切到后台就整体静音(挂起音频上下文并取消语音),回到前台恢复,
+    // 避免后台标签页幽灵般地继续放背景音乐。
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (this.ctx && this.ctx.state === 'running') void this.ctx.suspend()
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel()
+          this.speechBacklog = 0
+        }
+      } else if (this.ctx && this.ctx.state === 'suspended') {
+        void this.ctx.resume()
+      }
+    })
   }
 
   private ensureContext(): AudioContext | null {
@@ -83,7 +96,8 @@ class SoundManager {
       delay.connect(wet)
       wet.connect(master)
     }
-    if (this.ctx.state === 'suspended') void this.ctx.resume()
+    // 页面在后台时保持挂起状态(见 init 里的 visibilitychange),不要被音效事件唤醒
+    if (this.ctx.state === 'suspended' && !document.hidden) void this.ctx.resume()
     if (this.settings.music && this.musicTimer === null) this.startMusic()
     return this.ctx
   }
@@ -238,6 +252,8 @@ class SoundManager {
   private speak(text: string, seatIdx: number, interrupt = false) {
     if (!this.settings.voice || this.throttleVoice) return
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
+    // 页面在后台时不出声(TTS 不经过 AudioContext,需单独拦)
+    if (document.hidden) return
     const synth = window.speechSynthesis
     if (interrupt) {
       synth.cancel()
